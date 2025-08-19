@@ -9,6 +9,7 @@ import java.util.UUID;
 @Table(name = "users")
 public class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID uuid;
 
     @Column(name = "fio", nullable = false)
@@ -20,7 +21,7 @@ public class User {
     @Column(name = "avatar")
     private String avatar;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "role")
     private Role role;
 

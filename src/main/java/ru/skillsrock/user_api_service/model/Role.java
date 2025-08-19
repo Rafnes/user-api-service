@@ -12,7 +12,7 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID uuid;
 
-    @Column(name = "role_n ame", nullable = false)
+    @Column(name = "role_name", nullable = false)
     private String roleName;
 
     public UUID getUuid() {

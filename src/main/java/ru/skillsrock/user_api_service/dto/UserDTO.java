@@ -2,6 +2,7 @@ package ru.skillsrock.user_api_service.dto;
 
 public class UserDTO {
     private String fio;
+
     private String phoneNumber;
     private String avatar;
     private String roleName;

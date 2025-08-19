@@ -16,4 +16,3 @@ databaseChangeLog:
                   type: VARCHAR(100)
                   constraints:
                     nullable: false
-                    unique: true
