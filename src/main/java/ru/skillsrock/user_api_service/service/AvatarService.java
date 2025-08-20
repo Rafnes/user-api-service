@@ -1,5 +1,7 @@
 package ru.skillsrock.user_api_service.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,10 +16,11 @@ import java.util.UUID;
 
 @Service
 public class AvatarService {
+    private static final Logger log = LoggerFactory.getLogger(AvatarService.class);
     @Value("${avatars.dir}")
     private String avatarDir;
 
-    public String processAvatar(MultipartFile avatar, UUID userId) throws IOException {
+    public String uploadAvatar(MultipartFile avatar, UUID userId) throws IOException {
         if (avatar == null || avatar.isEmpty()) {
             throw new NullArgumentException("Аватар не может быть null или пустым");
         }
@@ -33,6 +36,7 @@ public class AvatarService {
         Files.createDirectories(filePath.getParent());
 
         Files.write(filePath, avatar.getBytes());
+        log.info("Загружен аватар для пользователя с id :{}", userId);
         return avatarDir + "/" + userId + "." + extension;
     }
 

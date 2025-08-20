@@ -40,17 +40,8 @@ public class UserService {
         user.setRole(role);
         userRepository.save(user);
 
-        if (avatar != null) {
-            String avatarUrl = null;
-            try {
-                avatarUrl = avatarService.processAvatar(avatar, user.getUuid());
-            } catch (IOException ex) {
-                log.error("Ошибка загрузки аватара: {}", ex.getMessage());
-            }
-            user.setAvatar(avatarUrl);
-        }
+        processAvatar(user, avatar);
         log.info("Создан пользователь: {}", user);
-
         return userRepository.save(user);
     }
 
@@ -68,5 +59,33 @@ public class UserService {
             responseDTO.setRoleName(roleName);
         }
         return responseDTO;
+    }
+
+    public User updateUser(UUID userId, UserRequestDTO userRequestDTO, MultipartFile avatar) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("Пользователь с id: " + userId + " не найден"));
+        Validation.validateUserDto(userRequestDTO);
+        log.info("Обновляем пользователя с id: {}", userId);
+        user.setFio(userRequestDTO.getFio());
+        user.setPhoneNumber(userRequestDTO.getPhoneNumber());
+
+        Role role = roleRepository.findByUuid(user.getRole().getUuid());
+        role.setRoleName(userRequestDTO.getRoleName());
+
+        processAvatar(user, avatar);
+        userRepository.save(user);
+        log.info("Обновлен пользователь: {}", user);
+        return user;
+    }
+
+    private void processAvatar(User user, MultipartFile avatar) {
+        if (avatar != null) {
+            String avatarUrl = null;
+            try {
+                avatarUrl = avatarService.uploadAvatar(avatar, user.getUuid());
+            } catch (IOException ex) {
+                log.error("Ошибка загрузки аватара: {}", ex.getMessage());
+            }
+            user.setAvatar(avatarUrl);
+        }
     }
 }

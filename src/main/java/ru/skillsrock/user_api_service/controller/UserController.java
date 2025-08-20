@@ -34,4 +34,12 @@ public class UserController {
         return ResponseEntity.ok(userService.getUser(userId));
     }
 
+    @PutMapping(value = "/userDetailsUpdate", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<User> updateUser(
+            @RequestParam UUID userId,
+            @RequestPart(value = "userDTO") UserRequestDTO userDTO,
+            @RequestPart(value = "avatar", required = false) MultipartFile avatar) {
+        User user = userService.updateUser(userId, userDTO, avatar);
+        return ResponseEntity.ok(user);
+    }
 }
