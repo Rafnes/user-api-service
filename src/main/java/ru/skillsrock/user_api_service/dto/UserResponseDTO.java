@@ -1,11 +1,20 @@
 package ru.skillsrock.user_api_service.dto;
 
-public class UserDTO {
-    private String fio;
+import java.util.UUID;
 
+public class UserResponseDTO {
+    private UUID uuid;
+    private String fio;
     private String phoneNumber;
-    private String avatar;
     private String roleName;
+
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
+    }
 
     public String getFio() {
         return fio;
@@ -23,22 +32,11 @@ public class UserDTO {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
     public String getRoleName() {
         return roleName;
     }
 
     public void setRoleName(String roleName) {
         this.roleName = roleName;
-    }
-
-    public UserDTO() {
     }
 }

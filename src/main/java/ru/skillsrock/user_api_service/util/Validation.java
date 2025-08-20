@@ -1,8 +1,8 @@
 package ru.skillsrock.user_api_service.util;
 
-import ru.skillsrock.user_api_service.dto.UserDTO;
+import ru.skillsrock.user_api_service.dto.UserRequestDTO;
 import ru.skillsrock.user_api_service.exception.IllegalPhoneNumberException;
-import ru.skillsrock.user_api_service.exception.InvalidFIOException;
+import ru.skillsrock.user_api_service.exception.InvalidStringArgumentException;
 import ru.skillsrock.user_api_service.exception.NullArgumentException;
 
 import java.util.regex.Pattern;
@@ -11,17 +11,21 @@ public class Validation {
     private static final Pattern NAME_REGEXP = Pattern.compile("^[a-zA-Zа-яА-ЯёЁ\\s]+$");
     private static final Pattern PHONE_REGEXP = Pattern.compile("^\\+7\\s?\\(?\\d{3}\\)?\\s?\\d{3}-?\\d{2}-?\\d{2}$");
 
-    public static void validateUserDto(UserDTO userDTO) {
+    public static void validateUserDto(UserRequestDTO userDTO) {
         if (userDTO == null) {
             throw new NullArgumentException("Создаваемый пользователь не может быть null");
         }
-        validateName(userDTO.getFio());
+        validateString(userDTO.getFio(), "ФИО");
+
+        if (userDTO.getRoleName() != null) {
+            validateString(userDTO.getRoleName(), "Роль");
+        }
         validatePhone(userDTO.getPhoneNumber());
     }
 
-    private static void validateName(String fio) {
-        if (fio == null || fio.isBlank()|| !NAME_REGEXP.matcher(fio).matches()) {
-            throw new InvalidFIOException("Поле ФИО не может быть пустым и должно содержать только буквы");
+    private static void validateString(String string, String fieldName) {
+        if (string == null || string.isBlank()|| !NAME_REGEXP.matcher(string).matches()) {
+            throw new InvalidStringArgumentException("Поле " + fieldName + " не может быть пустым и должно содержать только буквы");
         }
     }
 
