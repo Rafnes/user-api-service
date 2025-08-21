@@ -17,10 +17,12 @@ public class Validation {
         }
         validateString(userDTO.getFio(), "ФИО");
 
+        if (userDTO.getPhoneNumber() != null) {
+            validatePhone(userDTO.getPhoneNumber());
+        }
         if (userDTO.getRoleName() != null) {
             validateString(userDTO.getRoleName(), "Роль");
         }
-        validatePhone(userDTO.getPhoneNumber());
     }
 
     private static void validateString(String string, String fieldName) {

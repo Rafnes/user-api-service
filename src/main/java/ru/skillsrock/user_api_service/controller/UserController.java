@@ -42,4 +42,10 @@ public class UserController {
         User user = userService.updateUser(userId, userDTO, avatar);
         return ResponseEntity.ok(user);
     }
+
+    @DeleteMapping("/users")
+    public ResponseEntity<Void> deleteUser(@RequestParam UUID userId) {
+        userService.deleteUser(userId);
+        return ResponseEntity.noContent().build();
+    }
 }

@@ -10,10 +10,6 @@ public class UserRequestDTO {
         return fio;
     }
 
-    public void setFio(String fio) {
-        this.fio = fio;
-    }
-
     public String getPhoneNumber() {
         return phoneNumber;
     }

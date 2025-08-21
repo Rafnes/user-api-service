@@ -41,4 +41,22 @@ public class GlobalExceptionHandler {
         log.warn("Пользователь не найден: {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
+
+    @ExceptionHandler(FileDeleteFailureException.class)
+    public ResponseEntity<String> handleFileDeleteFailureException(FileDeleteFailureException ex) {
+        log.warn("Не удалось удалить аватар: {}", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity<String> handleUserAlreadyExistsException(UserAlreadyExistsException ex) {
+        log.warn(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(PhoneNumberAlreadyTakenException.class)
+    public ResponseEntity<String> PhoneNumberAlreadyTakenException(PhoneNumberAlreadyTakenException ex) {
+        log.warn(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
 }
