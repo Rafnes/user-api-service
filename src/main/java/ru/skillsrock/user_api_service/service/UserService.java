@@ -77,8 +77,11 @@ public class UserService {
 
     public User updateUser(UUID userId, UserRequestDTO userRequestDTO, MultipartFile avatar) {
         User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("Пользователь с id: " + userId + " не найден"));
+
         Validation.validateUserDto(userRequestDTO);
-        if (user.getFio().equals(userRequestDTO.getFio()) && user.getPhoneNumber().equals(formatPhoneNumber(userRequestDTO.getPhoneNumber())) && user.getRole().getRoleName().equals(userRequestDTO.getRoleName())) {
+
+        String formattedPhoneNumber = formatPhoneNumber(userRequestDTO.getPhoneNumber());
+        if (user.getFio().equals(userRequestDTO.getFio()) && user.getPhoneNumber().equals(formattedPhoneNumber) && user.getRole().getRoleName().equals(userRequestDTO.getRoleName())) {
             throw new UserAlreadyExistsException("не удалось обновить пользователя: имя, номер телефона и роль совпадают с уже сохраненными");
         }
 
@@ -90,7 +93,7 @@ public class UserService {
         user.setFio(userRequestDTO.getFio());
 
         if (userRequestDTO.getPhoneNumber() != null) {
-            user.setPhoneNumber(formatPhoneNumber(userRequestDTO.getPhoneNumber()));
+            user.setPhoneNumber(formattedPhoneNumber);
         } else {
             user.setPhoneNumber(userRequestDTO.getPhoneNumber());
         }
@@ -129,6 +132,11 @@ public class UserService {
     }
 
     private String formatPhoneNumber(String phoneNumber) {
-        return "+" + phoneNumber.replaceAll("\\D", "");
+        if (phoneNumber != null) {
+            return "+" + phoneNumber.replaceAll("\\D", "");
+        } else {
+            return null;
+        }
+
     }
 }

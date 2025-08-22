@@ -1,0 +1,26 @@
+services:
+  db:
+    image: postgres:latest
+    container_name: user_api_db
+    environment:
+      POSTGRES_DB: user_api_service
+      POSTGRES_USER: user_api_service_admin
+      POSTGRES_PASSWORD: skillsrock
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  app:
+    build: .
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/user_api_service
+      SPRING_DATASOURCE_USERNAME: user_api_service_admin
+      SPRING_DATASOURCE_PASSWORD: skillsrock
+
+volumes:
+  pgdata:

@@ -8,7 +8,6 @@ public class UserResponseDTO {
     private String phoneNumber;
     private String roleName;
 
-
     public void setUuid(UUID uuid) {
         this.uuid = uuid;
     }
@@ -23,5 +22,21 @@ public class UserResponseDTO {
 
     public void setRoleName(String roleName) {
         this.roleName = roleName;
+    }
+
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public String getFio() {
+        return fio;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public String getRoleName() {
+        return roleName;
     }
 }

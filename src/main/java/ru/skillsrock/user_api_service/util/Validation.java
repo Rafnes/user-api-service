@@ -22,6 +22,8 @@ public class Validation {
         }
         if (userDTO.getRoleName() != null) {
             validateString(userDTO.getRoleName(), "Роль");
+        } else {
+            throw new NullArgumentException("Значение поля Роль не может быть null");
         }
     }
 
