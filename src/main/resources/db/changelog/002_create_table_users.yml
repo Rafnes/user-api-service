@@ -1,0 +1,35 @@
+databaseChangeLog:
+  - changeSet:
+      id: "002"
+      author: "vdineka"
+      changes:
+        - createTable:
+            tableName: "users"
+            columns:
+              - column:
+                  name: "UUID"
+                  type: UUID
+              - column:
+                  name: "fio"
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: "phone_number"
+                  type: VARCHAR(20)
+              - column:
+                  name: "avatar"
+                  type: VARCHAR(255)
+              - column:
+                  name: "role"
+                  type: UUID
+                  constraints:
+                    nullable: false
+                    unique: true
+        - addForeignKeyConstraint:
+            - baseTableName: "users"
+            - baseColumnNames: "role"
+            - referencedTableName: "roles"
+            - referencedColumnNames: "UUID"
+            - constraintName: "fk_users_roles"
+            - onDelete: "CASCADE"
